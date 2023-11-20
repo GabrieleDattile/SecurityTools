@@ -18,22 +18,22 @@ install_arch() {
     sudo pacman -S --noconfirm veracrypt gnupg cryptsetup openssl aescrypt
 }
 
-# Verifica la distribuzione in uso
-if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    if [[ $ID == "ubuntu" || $ID == "debian" ]]; then
-        install_debian
-    elif [[ $ID == "fedora" ]]; then
-        install_fedora
-    elif [[ $ID == "arch" || $ID == "manjaro" ]]; then
-        install_arch
-    else
-        echo "La tua distribuzione non è supportata da questo script."
+# Selezione della distribuzione Linux
+echo "Seleziona la distribuzione Linux:"
+echo "1. Debian/Ubuntu"
+echo "2. Fedora"
+echo "3. Arch/Manjaro"
+read -p "Inserisci il numero corrispondente alla tua distribuzione: " distro
+
+# Verifica della distribuzione selezionata e avvio dell'installazione
+case $distro in
+    1) install_debian ;;
+    2) install_fedora ;;
+    3) install_arch ;;
+    *)
+        echo "Selezione non valida. Uscita."
         exit 1
-    fi
-else
-    echo "Impossibile rilevare la distribuzione Linux."
-    exit 1
-fi
+        ;;
+esac
 
 echo "Installazione completata."
